@@ -1,0 +1,26 @@
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+/src/vendor
+.env
+.env.backup
+.phpunit.result.cache
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/.idea
+/.vscode
+
+# storage 全体は無視するが、ダミー画像だけはバージョン管理する
+/src/storage/*
+!/src/storage/app/
+!/src/storage/app/public/
+!/src/storage/app/public/images/
+!/src/storage/app/public/images/*
+
+# MySQL データは全て無視
+/docker/mysql/data/

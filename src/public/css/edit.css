@@ -1,0 +1,98 @@
+/* =====================
+   予約変更ページ用スタイル
+   ===================== */
+
+.edit-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px 15px;
+}
+
+.edit-card {
+    background: #2b5cff;
+    color: #fff;
+    padding: 80px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.edit-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.edit-card label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.edit-card input,
+.edit-card select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.error-message {
+    color: #ffdddd;
+    font-size: 0.85rem;
+    margin: -8px 0 10px 2px;
+}
+
+.edit-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 14px;
+    background: #0056b3;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.edit-btn:hover {
+    background: #004099;
+}
+
+.cancel-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px;
+    background: #0056b3;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.cancel-btn:hover {
+    background: #f59e0b;
+}
+
+/* ---- レスポンシブ ---- */
+@media (max-width: 768px) {
+    .edit-card {
+        padding: 20px;
+    }
+
+    .edit-card h2 {
+        font-size: 1.4rem;
+    }
+}
