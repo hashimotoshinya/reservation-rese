@@ -1,0 +1,162 @@
+/* ==============================
+Ownerページ専用CSS
+============================== */
+.owner-page {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.owner-page h1 {
+    text-align: center;
+    color: #2563eb;
+    margin-bottom: 25px;
+}
+
+.flash-message {
+    display: block;
+    margin-bottom: 16px;
+    background: #2563eb;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    text-align: center;
+    animation: fadeOut 3s forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+/* ==============================
+店舗一覧グリッド
+============================== */
+.shop-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* ==============================
+店舗カード
+============================== */
+.shop-card {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.shop-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.shop-card h3 {
+    margin: 0 0 8px;
+    color: #111;
+    font-size: 1.1rem;
+}
+
+.shop-card p {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.shop-card img {
+    margin-bottom: 12px;
+    border-radius: 8px;
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+/* 編集ボタン */
+.shop-card a {
+    display: inline-block;
+    padding: 8px 14px;
+    background: #2563eb;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.shop-card a:hover {
+    background: #1d4ed8;
+}
+
+/* ==============================
+新規登録ボタン
+============================== */
+.owner-page .btn-primary {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #16a34a;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.owner-page .btn-primary:hover {
+    background: #15803d;
+}
+
+/* ==============================
+レスポンシブ
+============================== */
+@media (max-width: 768px) {
+    .owner-page {
+        padding: 15px;
+    }
+
+    .shop-card {
+        padding: 14px;
+    }
+
+    .shop-card h3 {
+        font-size: 1rem;
+    }
+
+    .shop-card p {
+        font-size: 0.85rem;
+    }
+
+    .shop-card img {
+        height: 140px;
+    }
+
+    .shop-card a {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .owner-page .btn-primary {
+        width: 100%;
+        text-align: center;
+        padding: 14px;
+        font-size: 1rem;
+    }
+}

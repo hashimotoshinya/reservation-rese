@@ -34,7 +34,7 @@
 <div class="shop-list">
     @forelse($shops as $shop)
         <div class="shop-card">
-            <img src="{{ asset($shop->image_path) }}" alt="{{ $shop->name }}" class="shop-img">
+            <img src="{{ asset('storage/' . $shop->image_path) }}" alt="{{ $shop->name }}" class="shop-img">
             <div class="shop-content">
                 <h3>{{ $shop->name }}</h3>
                 <p>#{{ $shop->area->name }} #{{ $shop->genre->name }}</p>

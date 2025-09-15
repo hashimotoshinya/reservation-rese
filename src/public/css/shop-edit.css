@@ -1,0 +1,151 @@
+/* ==============================
+Shop 編集・新規登録ページ用CSS
+============================== */
+.shop-edit-page {
+    background: #fff;
+    padding: 25px;
+    border-radius: 10px;
+    max-width: 700px;
+    margin: 0 auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.back-btn {
+    display: inline-block;
+    padding: 6px 10px;
+    font-size: 18px;
+    color: #2563eb;
+    border: 1px solid #2563eb;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.back-btn:hover {
+    background: #2563eb;
+    color: #fff;
+}
+
+.shop-edit-page h1 {
+    text-align: center;
+    color: #2563eb;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* エラーメッセージ */
+.shop-edit-page ul {
+    padding-left: 18px;
+    margin-bottom: 20px;
+}
+
+.shop-edit-page li {
+    color: red;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+/* フォーム */
+.shop-edit-page form>div {
+    margin-bottom: 18px;
+}
+
+.shop-edit-page label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.shop-edit-page input[type="text"],
+.shop-edit-page select,
+.shop-edit-page textarea,
+.shop-edit-page input[type="file"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background: #f9fafb;
+    transition: border-color 0.2s;
+}
+
+.shop-edit-page input[type="text"]:focus,
+.shop-edit-page select:focus,
+.shop-edit-page textarea:focus,
+.shop-edit-page input[type="file"]:focus {
+    border-color: #2563eb;
+    outline: none;
+    background: #fff;
+}
+
+.shop-edit-page textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* 画像 */
+.shop-edit-page img {
+    margin-top: 10px;
+    border-radius: 8px;
+    max-width: 200px;
+    border: 1px solid #ddd;
+}
+
+#preview-container {
+    margin-top: 10px;
+}
+
+#preview-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* ボタン */
+.shop-edit-page button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #2563eb;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.shop-edit-page button:hover {
+    background: #1d4ed8;
+}
+
+/* ==============================
+レスポンシブ
+============================== */
+@media (max-width: 768px) {
+    .shop-edit-page {
+        padding: 18px;
+    }
+
+    .shop-edit-page h1 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+
+    .shop-edit-page input[type="text"],
+    .shop-edit-page select,
+    .shop-edit-page textarea,
+    .shop-edit-page input[type="file"] {
+        font-size: 0.9rem;
+        padding: 9px 10px;
+    }
+
+    .shop-edit-page button {
+        font-size: 0.95rem;
+        padding: 10px;
+    }
+}

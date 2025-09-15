@@ -64,7 +64,7 @@
                 @else
                     @foreach($favorites as $shop)
                         <div class="favorite-card">
-                            <img src="{{ asset($shop->image_path) }}" alt="{{ $shop->name }}">
+                            <img src="{{ asset('storage/' . $shop->image_path) }}" alt="{{ $shop->name }}">
                             <h4>{{ $shop->name }}</h4>
                             <p>#{{ $shop->area->name }} #{{ $shop->genre->name }}</p>
 
@@ -80,7 +80,6 @@
                 @endif
             </div>
         </section>
-
     </div>
 </div>
 @endsection

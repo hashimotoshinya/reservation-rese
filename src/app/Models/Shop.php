@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Favorite;
 
 class Shop extends Model
 {
@@ -24,13 +23,12 @@ class Shop extends Model
         if (!$user) {
             return false;
         }
-
-        return $this->favorites()->where('user_id', $user->id)->exists();
+        return $this->favoritedBy()->where('user_id', $user->id)->exists();
     }
 
-    public function favorites()
+    public function favoritedBy()
     {
-        return $this->hasMany(Favorite::class);
+        return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
     }
 
     public function area()
@@ -48,14 +46,9 @@ class Shop extends Model
         return $this->hasMany(Reservation::class);
     }
 
-    public function user()
+    public function owner()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function shop()
-    {
-        return $this->belongsTo(Shop::class);
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
     public function reviews()

@@ -12,7 +12,7 @@
             <a href="{{ url('/') }}" class="back-btn">&lt;</a>
             <h2>{{ $shop->name }}</h2>
         </div>
-        <img src="{{ asset($shop->image_path) }}" alt="{{ $shop->name }}" class="shop-detail-img">
+        <img src="{{ asset('storage/' . $shop->image_path) }}" alt="{{ $shop->name }}" class="shop-detail-img">
 
         <p class="shop-tags">#{{ $shop->area->name }} #{{ $shop->genre->name }}</p>
         <p class="shop-description">{{ $shop->description }}</p>

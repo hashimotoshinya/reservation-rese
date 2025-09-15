@@ -26,9 +26,9 @@ class StaffLoginController extends Controller
             $user = Auth::user();
 
             if ($user->role === 'admin') {
-                return redirect()->intended('/admin/dashboard');
+                return redirect()->intended('/staff/admin');
             } elseif ($user->role === 'owner') {
-                return redirect()->intended('/owner/dashboard');
+                return redirect()->intended('staff/owner');
             }
 
             Auth::logout();

@@ -12,7 +12,12 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Auth\StaffLoginController;
-
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\NewOwnerController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Owner\OwnerDashboardController;
+use App\Http\Controllers\Owner\ShopEditController;
+use App\Http\Controllers\Owner\ReservationStatusController;
 // --------------------
 // 公開ページ（誰でも閲覧可）
 // --------------------
@@ -81,7 +86,45 @@ Route::middleware('auth')->group(function () {
 Route::post('/logout', [LogoutController::class, 'logout'])
     ->name('logout');
 
+// =============================
 // スタッフログイン
+// =============================
 Route::get('/staff/login', [StaffLoginController::class, 'showLoginForm'])->name('staff.login');
 Route::post('/staff/login', [StaffLoginController::class, 'login'])->name('staff.login.submit');
 Route::post('/staff/logout', [StaffLoginController::class, 'logout'])->name('staff.logout');
+
+// =============================
+// 管理者ダッシュボード
+// =============================
+Route::middleware(['auth'])->group(function () {
+    Route::get('/staff/admin', [AdminDashboardController::class, 'index'])
+        ->name('staff.admin.dashboard');
+
+    Route::get('/staff/owner', [OwnerDashboardController::class, 'index'])
+        ->name('staff.owner.dashboard');
+});
+
+// =============================
+// 管理者機能
+// （新規オーナー作成 / 通知送信など）
+// =============================
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::post('/owners', [NewOwnerController::class, 'store'])->name('owners.store');
+    Route::post('/notifications/send', [NotificationController::class, 'send'])->name('notifications.send');
+});
+
+// =============================
+// オーナー機能
+// （店舗登録 / 更新など）
+// =============================
+Route::middleware(['auth'])->prefix('owner')->name('owner.')->group(function () {
+    Route::get('/dashboard', [OwnerDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/shop/{shop}/reservations', [ReservationStatusController::class, 'index'])->name('shop.reservations');
+
+    Route::prefix('shop')->name('shop.')->group(function () {
+        Route::get('/create', [ShopEditController::class, 'create'])->name('create');
+        Route::post('/', [ShopEditController::class, 'store'])->name('store');
+        Route::get('/{shop}/edit', [ShopEditController::class, 'edit'])->name('edit');
+        Route::put('/{shop}', [ShopEditController::class, 'update'])->name('update');
+    });
+});

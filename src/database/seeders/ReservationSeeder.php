@@ -14,7 +14,7 @@ class ReservationSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::where('email', 'test@example.com')->first();
+        $user = User::where('email', 'user@example.com')->first();
         $shop = Shop::first();
 
         if (!$user || !$shop) {
@@ -25,10 +25,10 @@ class ReservationSeeder extends Seeder
         Reservation::create([
             'user_id' => $user->id,
             'shop_id' => $shop->id,
-            'date' => now()->toDateString(),
-            'time' => '12:00:00',
-            'number' => 2,
-            'status' => 'active',
+            'date'    => now()->toDateString(),
+            'time'    => '12:00:00',
+            'number'  => 2,
+            'status'  => 'active',
         ]);
     }
 }

@@ -12,7 +12,7 @@ class MypageController extends Controller
         $user = Auth::user();
 
         $reservations = $user->reservations ?? collect();
-        $favorites = $user->favorites()->with('shop')->get();
+        $favorites = $user->favorites()->with(['area', 'genre'])->get();
 
         return view('mypage.index', compact('user', 'reservations', 'favorites'));
     }

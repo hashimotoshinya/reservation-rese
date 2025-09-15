@@ -1,0 +1,114 @@
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.admin-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 24px;
+    color: #333;
+    text-align: center;
+}
+
+/* フラッシュメッセージ */
+.flash-message {
+    display: block;
+    margin-bottom: 16px;
+    background: #2563eb;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    text-align: center;
+    animation: fadeOut 3s forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+/* コンテンツレイアウト */
+.admin-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+/* 各セクション */
+.admin-section {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+    color: #2563eb;
+}
+
+/* フォーム要素 */
+.admin-section form div {
+    margin-bottom: 12px;
+}
+
+.admin-section label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.admin-section input,
+.admin-section select,
+.admin-section textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.admin-section button {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 0.95rem;
+}
+
+.admin-section button:hover {
+    background: #1d4ed8;
+}
+
+/* エラーメッセージ */
+.error-message {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+    .admin-content {
+        grid-template-columns: 1fr;
+    }
+}
