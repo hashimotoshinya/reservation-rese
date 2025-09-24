@@ -15,9 +15,6 @@ use App\Actions\Auth\LoginResponse as CustomLoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         $this->app->singleton(RegisterResponse::class, function () {
@@ -32,9 +29,6 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->singleton(LoginResponse::class, CustomLoginResponse::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot()
     {
         Fortify::createUsersUsing(CreateNewUser::class);
