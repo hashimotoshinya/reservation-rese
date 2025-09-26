@@ -76,25 +76,44 @@
 
 ---
 
-## 環境構築
-```bash
-# 1. リポジトリをクローン
-git clone <リポジトリURL>
-cd src
+### セットアップ手順
 
-# 2. パッケージインストール
+#### ビルド＆起動
+```
+docker compose up -d --build
+```
+
+#### Laravelコンテナに入る
+```
+docker-compose exec php bash
+```
+
+#### 依存関係をインストール
+```
 composer install
-npm install && npm run dev
+```
 
-# 3. 環境ファイルを設定
+#### 環境ファイルをコピー
+```
 cp .env.example .env
-# DB・メール設定を環境に応じて修正
-
-# 4. アプリケーションキー生成
+```
+```
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=laravel_db
+DB_USERNAME=laravel_user
+DB_PASSWORD=laravel_pass
+```
+#### アプリケーションキーを生成
+```
 php artisan key:generate
-
-# 5. マイグレーション & シーディング
+```
+#### 画像表示用のシンボリックリンク作成
+```
+php artisan storage:link
+```
+#### データベースをマイグレート & シーディング
+```
 php artisan migrate --seed
-
-# 6. 開発サーバー起動
-php artisan serve
+```
