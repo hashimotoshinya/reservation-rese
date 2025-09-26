@@ -14,8 +14,12 @@
                 登録していただいたメールアドレスに認証メールを送付しました。<br>
                 メール認証を完了してください。
             </p>
-            @env('local', 'testing')
-                <a href="http://localhost:8025" class="verify-button" target="_blank">認証はこちらから</a>
+            @env('local')
+                <a href="http://localhost:8025" target="_blank">認証はこちらから</a>
+            @endenv
+
+            @env('staging')
+                <a href="http://3.113.30.77:8025" target="_blank">認証はこちらから</a>
             @endenv
 
             <form method="POST" action="{{ route('verification.send') }}">

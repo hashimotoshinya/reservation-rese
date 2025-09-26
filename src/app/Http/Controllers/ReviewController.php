@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ReviewRequest;
 use App\Models\Reservation;
-use App\Models\Review;
 
 class ReviewController extends Controller
 {
@@ -13,18 +12,15 @@ class ReviewController extends Controller
         return view('reservations.reviews', compact('reservation'));
     }
 
-    public function store(Request $request, Reservation $reservation)
+    public function store(ReviewRequest $request, Reservation $reservation)
     {
-        $request->validate([
-            'rating' => 'required|integer|between:1,5',
-            'comment' => 'nullable|string|max:500',
-        ]);
+        $validated = $request->validated();
 
         $reservation->review()->create([
             'user_id' => auth()->id(),
             'shop_id' => $reservation->shop_id,
-            'rating'  => $request->rating,
-            'comment' => $request->comment,
+            'rating'  => $validated['rating'],
+            'comment' => $validated['comment'] ?? null,
         ]);
 
         return redirect()->route('mypage.index')->with('success', 'レビューを投稿しました！');

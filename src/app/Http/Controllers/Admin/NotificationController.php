@@ -3,23 +3,19 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\NotificationRequest;
 use App\Mail\NotificationMail;
 use App\Models\User;
 use App\Models\Reservation;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class NotificationController extends Controller
 {
-    public function send(Request $request)
+    public function send(NotificationRequest $request)
     {
-        $validated = $request->validate([
-            'target'  => 'required|string',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string',
-        ]);
+        $validated = $request->validated();
 
-        $target = $validated['target'];
+        $target  = $validated['target'];
         $subject = $validated['subject'];
         $message = $validated['message'];
 
