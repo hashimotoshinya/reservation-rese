@@ -40,20 +40,20 @@
 - 管理者機能
   - オーナー作成
   - 通知送信（全体 / 常連ユーザー / オーナー）
+      - テスト送信後Mailhugにて確認
 - オーナー機能
   - オーナーダッシュボード
   - 店舗の作成 / 編集
   - 予約状況確認
-- 勤怠管理機能（学習用拡張機能）
 
 ---
 
 ## 使用技術（実行環境）
-- フレームワーク: Laravel 8.x (PHP 7.4)
-- フロントエンド: Blade, Tailwind CSS
+- フレームワーク: Laravel 8.83.29(PHP 8.1.33)
+- フロントエンド: Blade, CSS
 - データベース: MySQL (Amazon RDS)
-- 認証: Laravel Breeze, メール認証 (MailHog / AWS SES)
-- インフラ: AWS (EC2, RDS, S3, SES)
+- 認証: Laravel Fortify, メール認証 (MailHog)
+- インフラ: AWS (EC2, RDS, S3)
 - Web サーバー: nginx + php-fpm
 - その他: Docker (ローカル開発環境)
 
@@ -76,8 +76,9 @@
 
 ---
 
-### セットアップ手順
+## 環境構築
 
+### 開発環境（Docker利用）
 #### ビルド＆起動
 ```
 docker compose up -d --build
@@ -97,6 +98,7 @@ composer install
 ```
 cp .env.example .env
 ```
+#### .env設定例
 ```
 DB_CONNECTION=mysql
 DB_HOST=mysql
@@ -117,3 +119,135 @@ php artisan storage:link
 ```
 php artisan migrate --seed
 ```
+#### 開発サーバー起動
+```
+php artisan serve
+```
+### 本番環境構築例（AWS想定）
+#### 構成
+- EC2:Laravel(nginx+php-fpm)
+- RDS:MySQL
+- S3:画像ファイル保存
+- SES:メール送信（認証メール・通知）
+#### デプロイ手順例
+1. EC2にSSH接続
+```
+ssh -i "my-key.pem" ec2-user@xx.xx.xx.xx
+```
+2. ソースコード配置
+```
+cd /var/www
+git clone https://github.com/xxxx/restaurant-reservation.git
+cd restaurant-reservation/src
+```
+3. PHP 依存関係インストール
+```
+composer install --optimize-autoloader --no-dev
+```
+4. 環境変数ファイル設定
+```
+cp .env.production .env
+```
+.env.production 例
+```
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://yourdomain.com
+
+DB_CONNECTION=mysql
+DB_HOST=xxxx.rds.amazonaws.com
+DB_PORT=3306
+DB_DATABASE=laravel_db
+DB_USERNAME=laravel_user
+DB_PASSWORD=secure_pass
+
+MAIL_MAILER=ses
+MAIL_FROM_ADDRESS="noreply@yourdomain.com"
+MAIL_FROM_NAME="${APP_NAME}"
+AWS_ACCESS_KEY_ID=xxxxxxxx
+AWS_SECRET_ACCESS_KEY=xxxxxxxx
+AWS_DEFAULT_REGION=ap-northeast-1
+
+FILESYSTEM_DRIVER=s3
+AWS_BUCKET=your-s3-bucket
+```
+5. アプリケーションキー生成
+```
+php artisan key:generate
+```
+6. ストレージリンク
+```
+php artisan storage:link
+```
+7.  DB マイグレーション & シーディング
+```
+php artisan migrate --seed --force
+```
+8. キャッシュクリア & 再生成
+```
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+9. nginx / php-fpm 再起動 
+```
+sudo systemctl restart nginx
+sudo systemctl restart php-fpm
+```
+---
+## 💳 Stripe
+#### 現在の仕様
+- クレジットカードによる即時決済をサポート
+- ダミー決済を作成済み
+- 決済テスト（カード番号: 4242 4242 4242 4242・有効期限: 未来の日付 (例 12/34)・CVC: 任意 (例 123)） 
+- Webhook未使用
+#### Stripe APIキーの取得手順
+1. [Stripe公式サイト](https://dashboard.stripe.com/register) にアクセスしてアカウントを作成します。
+2. ダッシュボードの「開発者」>「APIキー」へ進みます。
+3. 以下の2種類のキーを取得し、`.env` に記述します（**テストキーを使用してください**）：
+    - 公開可能キー（例: `pk_test_...`）
+    - シークレットキー（例: `sk_test_...`）
+#### .env設定例
+ ```
+STRIPE_KEY=pk_test_your_stripe_public_key_here
+STRIPE_SECRET=sk_test_your_stripe_secret_key_here
+```
+> ⚠️ 本番環境では `.env` の Stripe キーは厳重に管理し、GitHub 等に公開しないよう注意してください。
+#### Stripe パッケージを導入
+```
+composer require stripe/stripe-php
+```
+---
+## 📧 メール認証設定（MailHog 使用）
+#### 機能概要
+- 新規ユーザー登録時にメールアドレス認証必須
+- 認証完了後のみログイン可能
+- 管理者のお知らせメール送信
+#### MailHogの起動
+```
+docker run -d -p 1025:1025 -p 8025:8025 mailhog/mailhog
+```
+- Web UI: http://localhost:8025
+- SMTPポート: 1025
+#### .env設定例（開発環境）
+```
+MAIL_MAILER=smtp
+MAIL_HOST=host.docker.internal
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="noreply@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+#### テスト手順
+1.	ユーザー登録
+2.	『認証はこちらから』をクリック（ Web UI http://localhost:8025 ）でメールを確認
+    - ない場合は『認証メールを再送する』をクリック
+3.	認証リンクをクリックして有効化
+4.	ログインが可能に
+5.  リマインダー機能確認（当日ダミー予約1件作成済み）
+    ```
+    php artisan reservations:send-reminders
+    ``` 
+---
