@@ -21,7 +21,7 @@
   - local: http://localhost:8025
   - staging: http://3.113.30.77:8025  
 
-※ 本番環境では AWS SES を利用予定です。
+※ 本番環境では AWS SES を利用想定です。
 
 ---
 
@@ -194,6 +194,46 @@ php artisan view:cache
 sudo systemctl restart nginx
 sudo systemctl restart php-fpm
 ```
+#### nginx 設定例（参考）
+EC2 上で nginx を利用する際の最小構成例です。
+/etc/nginx/conf.d/laravel.conf に配置してください。
+実際のドメインやパスに応じて修正が必要です。
+SSL 対応やセキュリティ強化は別途設定してください。
+
+- nginx
+```
+server {
+    listen 80;
+    server_name yourdomain.com;
+
+    root /var/www/restaurant-reservation/src/public;
+
+    index index.php index.html;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_pass   unix:/var/run/php-fpm/www.sock;　# 環境により修正
+        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_index  index.php;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+    client_max_body_size 20M;
+}
+```
+設定反映後は以下を実行します。
+```
+sudo systemctl restart nginx
+sudo systemctl restart php-fpm
+```
+
 ---
 ## 💳 Stripe
 #### 現在の仕様
