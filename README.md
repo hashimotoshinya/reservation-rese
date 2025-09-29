@@ -237,6 +237,32 @@ sudo systemctl restart nginx
 sudo systemctl restart php-fpm
 ```
 
+### 環境ごとの違い
+
+| 項目 | 開発環境（local, Docker） | ステージング環境（AWS EC2） |
+|------|--------------------------|-----------------------------|
+| 画像保存 | `storage/public` を利用 | Amazon S3 を利用 |
+| メール送信 | MailHog を利用（http://localhost:8025） | MailHog を EC2 上に起動（http://<EC2_IP>:8025） |
+| データベース | Docker 上の MySQL コンテナ | Amazon RDS (MySQL) |
+| デプロイ方法 | `docker compose up` | `git clone` + `composer install` + `php artisan migrate` |
+| Webサーバー | Laravel の `php artisan serve` | nginx + php-fpm |
+
+---
+
+## 💳 Stripe
+#### 現在の仕様
+- クレジットカードによる即時決済をサポート
+- ダミー決済を作成済み
+- 決済テスト（カード番号: 4242 4242 4242 4242・有効期限: 未来の日付 (例 12/34)・CVC: 任意 (例 123)） 
+- Webhook未使用
+#### Stripe APIキーの取得手順
+1. [Stripe公式サイト](https://dashboard.stripe.com/register) にアクセスしてアカウントを作成します。
+2. ダッシュボードの「開発者」>「APIキー」へ進みます。
+3. 以下の2種類のキーを取得し、`.env` に記述します（**テストキーを使用してください**）：
+    - 公開可能キー（例: `pk_test_...`）
+    - シークレットキー（例: `sk_test_...`）
+#### .env設定例
+
 ---
 ## 💳 Stripe
 #### 現在の仕様
@@ -294,3 +320,39 @@ MAIL_FROM_NAME="${APP_NAME}"
     php artisan reservations:send-reminders
     ``` 
 ---
+---
+
+## Feature / Unit テスト
+
+本アプリケーションでは Laravel の Feature テストを中心に実装しています。  
+主要なテスト観点は以下の通りです。
+
+- **認証関連**
+  - ユーザー登録（バリデーション含む）
+  - メール認証（認証リンク、再送）
+  - ログイン / ログアウト（ユーザー / オーナー / 管理者の区別）
+- **管理者機能**
+  - 管理者ダッシュボード認証
+  - オーナー作成（バリデーション含む）
+  - 通知送信機能
+- **オーナー機能**
+  - ダッシュボード表示
+  - 店舗登録 / 編集
+  - 自店舗の予約状況確認
+- **ユーザー機能**
+  - マイページ表示（予約一覧 / お気に入り / QR コード表示）
+  - 店舗のお気に入り登録 / 解除
+  - 予約の作成 / 編集 / 削除 / 完了
+  - レビュー投稿（星評価・コメント、バリデーション）
+- **店舗 / 公開ページ**
+  - トップページ（店舗一覧）
+  - 店舗詳細（存在しない ID は 404）
+- **決済**
+  - Stripe Checkout セッション作成（リダイレクト確認）
+実行コマンド
+```
+php artisan test
+```
+
+---
+
