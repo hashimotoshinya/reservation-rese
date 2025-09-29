@@ -125,6 +125,7 @@ php artisan migrate --seed
 ```
 php artisan serve
 ```
+---
 ### 本番環境構築例（AWS想定）
 #### 構成
 - EC2:Laravel(nginx+php-fpm)
