@@ -248,23 +248,7 @@ sudo systemctl restart php-fpm
 | Webサーバー | Laravel の `php artisan serve` | nginx + php-fpm |
 
 ---
-
-## 💳 Stripe
-#### 現在の仕様
-- クレジットカードによる即時決済をサポート
-- ダミー決済を作成済み
-- 決済テスト（カード番号: 4242 4242 4242 4242・有効期限: 未来の日付 (例 12/34)・CVC: 任意 (例 123)） 
-- Webhook未使用
-#### Stripe APIキーの取得手順
-1. [Stripe公式サイト](https://dashboard.stripe.com/register) にアクセスしてアカウントを作成します。
-2. ダッシュボードの「開発者」>「APIキー」へ進みます。
-3. 以下の2種類のキーを取得し、`.env` に記述します（**テストキーを使用してください**）：
-    - 公開可能キー（例: `pk_test_...`）
-    - シークレットキー（例: `sk_test_...`）
-#### .env設定例
-
----
-## 💳 Stripe
+## Stripe
 #### 現在の仕様
 - クレジットカードによる即時決済をサポート
 - ダミー決済を作成済み
@@ -287,7 +271,7 @@ STRIPE_SECRET=sk_test_your_stripe_secret_key_here
 composer require stripe/stripe-php
 ```
 ---
-## 📧 メール認証設定（MailHog 使用）
+## メール認証設定（MailHog 使用）
 #### 機能概要
 - 新規ユーザー登録時にメールアドレス認証必須
 - 認証完了後のみログイン可能
@@ -320,6 +304,22 @@ MAIL_FROM_NAME="${APP_NAME}"
     php artisan reservations:send-reminders
     ``` 
 ---
+## ダミーユーザー情報
+#### 管理者
+- name:管理者
+- email:admin@example.com
+- password:password123
+- 管理者登録済、staffloginからログイン
+#### 店舗代表者
+- name:テストオーナー
+- email:owner@example.com
+-  password:password123
+-  店舗代表者登録済み、staffloginからログイン
+#### 一般ユーザー
+- name:テストユーザー
+- email:user@example.com
+- password:password123
+- メール認証済、当日予約一件、loginからログイン
 ---
 
 ## Feature / Unit テスト
