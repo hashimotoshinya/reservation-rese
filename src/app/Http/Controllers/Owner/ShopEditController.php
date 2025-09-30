@@ -58,9 +58,6 @@ class ShopEditController extends Controller
         $data = $validated;
 
         if ($request->hasFile('image')) {
-            if ($shop->image_path) {
-                Storage::disk('public')->delete($shop->image_path);
-            }
             $data['image_path'] = $request->file('image')->store('images', 'public');
         }
 

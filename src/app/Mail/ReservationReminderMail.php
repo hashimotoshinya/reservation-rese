@@ -27,6 +27,6 @@ class ReservationReminderMail extends Mailable
     public function build()
     {
         return $this->subject('【リマインダー】本日のご予約について')
-            ->markdown('emails.reservation_reminder');
+            ->markdown('emails.reminder');
     }
 }
